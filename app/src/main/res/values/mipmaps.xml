@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="mipmap" name="adaptive_ic">@mipmap/adaptive_mipmap</item>
+    <item type="mipmap" name="ic_launcher">@mipmap/adaptive_ic</item>
+    <item type="mipmap" name="ic_launcher_round">@mipmap/ic_launcher</item>
+</resources>

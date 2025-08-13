@@ -1,0 +1,70 @@
+package com.vasyl.fullinterfacepip;
+
+import android.os.SystemProperties;
+
+import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
+
+public class HookEntry implements IXposedHookLoadPackage {
+
+    @Override
+    public void handleLoadPackage(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        // Hook will apply only for the front app
+        String pipAppPackageName = SystemProperties.get("persist.launcher.packagename", "");
+        if (!pipAppPackageName.equals(lpparam.packageName)) return;
+
+        XposedBridge.log("HookEntry: Hook active for Google Maps");
+
+        try {
+            XposedHelpers.findAndHookMethod(
+                "android.app.Activity",
+                lpparam.classLoader,
+                "enterPictureInPictureMode",
+                XC_MethodReplacement.returnConstant(false)
+            );
+            XposedBridge.log("HookEntry: Hooked enterPictureInPictureMode()");
+        } catch (Throwable t) {
+            XposedBridge.log("HookEntry: Failed hooking enterPictureInPictureMode: " + t);
+        }
+
+        try {
+            XposedHelpers.findAndHookMethod(
+                "android.app.Activity",
+                lpparam.classLoader,
+                "onPictureInPictureRequested",
+                XC_MethodReplacement.returnConstant(false)
+            );
+            XposedBridge.log("HookEntry: Hooked onPictureInPictureRequested()");
+        } catch (Throwable t) {
+            XposedBridge.log("HookEntry: Failed hooking onPictureInPictureRequested: " + t);
+        }
+
+        try {
+            XposedHelpers.findAndHookMethod(
+                "android.app.Activity",
+                lpparam.classLoader,
+                "isInPictureInPictureMode",
+                XC_MethodReplacement.returnConstant(false)
+            );
+            XposedBridge.log("HookEntry: Hooked isInPictureInPictureMode()");
+        } catch (Throwable t) {
+            XposedBridge.log("HookEntry: Failed hooking isInPictureInPictureMode: " + t);
+        }
+
+        try {
+            XposedHelpers.findAndHookMethod(
+                "android.app.Activity",
+                lpparam.classLoader,
+                "onPictureInPictureModeChanged",
+                boolean.class,
+                XC_MethodReplacement.DO_NOTHING
+            );
+            XposedBridge.log("HookEntry: Hooked onPictureInPictureModeChanged()");
+        } catch (Throwable t) {
+            XposedBridge.log("HookEntry: Failed hooking onPictureInPictureModeChanged: " + t);
+        }
+    }
+}
