@@ -11,7 +11,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -25,6 +25,22 @@ android {
             )
         }
     }
+
+    signingConfigs {
+        getByName("debug") {
+            keyAlias = "android"
+            keyPassword = "android"
+            storeFile = file("../app/keystore.jks")
+            storePassword = "android"
+        }
+        create("release") {
+            keyAlias = "android"
+            keyPassword = "android"
+            storeFile = file("../app/keystore.jks")
+            storePassword = "android"
+        }
+    }
+    
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
