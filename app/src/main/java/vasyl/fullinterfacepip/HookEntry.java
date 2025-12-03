@@ -21,10 +21,6 @@ public class HookEntry implements IXposedHookLoadPackage {
         if (pipAppPackageName.isEmpty() || !pipAppPackageName.equals(lpparam.packageName)) {
             return;
         }
-
-        if (!"com.google.android.apps.maps".equals(lpparam.packageName)) {
-            return;
-        }
         
         XposedBridge.log("HookEntry: Hook active for " + lpparam.packageName);
 
